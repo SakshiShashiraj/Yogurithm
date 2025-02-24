@@ -12,7 +12,7 @@ import SwiftData
 struct YogurithmApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Yogurt.self, // Make sure you reference the correct model
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -26,7 +26,27 @@ struct YogurithmApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    preloadYogurts(modelContext: sharedModelContainer.mainContext) 
+                }
         }
         .modelContainer(sharedModelContainer)
     }
+
+    func preloadYogurts(modelContext: ModelContext) {
+        let existingYogurts = try? modelContext.fetch(FetchDescriptor<Yogurt>())
+        
+        if existingYogurts?.isEmpty == true {
+            let defaultYogurts = [
+                Yogurt(name: "Vanilla Greek Yogurt", brand: "Chobani", rating: 0),
+                Yogurt(name: "Strawberry Yogurt", brand: "Yoplait", rating: 0),
+                Yogurt(name: "Plain Yogurt", brand: "FAGE", rating: 0)
+            ]
+            
+            for yogurt in defaultYogurts {
+                modelContext.insert(yogurt)
+            }
+        }
+    }
 }
+

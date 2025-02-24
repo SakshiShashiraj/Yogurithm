@@ -10,52 +10,47 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var yogurts: [Yogurt] // Fetches all yogurts
 
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                ForEach(yogurts) { yogurt in
+                    NavigationLink(destination: YogurtDetailView(yogurt: yogurt)) {
+                        VStack(alignment: .leading) {
+                            Text(yogurt.name)
+                                .font(.headline)
+                            Text(yogurt.brand)
+                                .font(.subheadline)
+                            Text("⭐️ Rating: \(yogurt.rating)")
+                                .font(.caption)
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: deleteYogurts)
             }
+            .navigationTitle("Yogurithm 🍦")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    Button(action: addYogurt) {
+                        Image(systemName: "plus")
                     }
                 }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
             }
         }
     }
-}
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+    func deleteYogurts(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(yogurts[index])
+        }
+    }
+
+    func addYogurt() {
+        let newYogurt = Yogurt(name: "New Yogurt", brand: "Brand", rating: 3)
+        modelContext.insert(newYogurt)
+    }
 }
