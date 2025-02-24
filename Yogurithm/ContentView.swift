@@ -5,6 +5,8 @@
 //  Created by Sakshi Shashiraj on 2/23/25.
 //
 
+
+
 import SwiftUI
 import SwiftData
 
@@ -25,13 +27,6 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Yogurt Brands")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: RankedYogurtListView(yogurts: yogurts)) {
-                        Text("View Current List")
-                    }
-                }
-            }
         }
     }
 }

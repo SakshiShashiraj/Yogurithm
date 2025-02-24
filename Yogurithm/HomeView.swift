@@ -2,9 +2,6 @@
 //  HomeView.swift
 //  Yogurithm
 //
-//  Created by Sakshi Shashiraj on 2/23/25.
-//
-
 
 import SwiftUI
 
@@ -16,12 +13,13 @@ struct HomeView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                
+
                 Text("Rank your favorite yogurts and keep track of your reviews!")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
 
+                // Start Ranking Button
                 NavigationLink(destination: ContentView()) {
                     Text("Start Ranking")
                         .font(.title2)
@@ -33,6 +31,8 @@ struct HomeView: View {
                         .cornerRadius(12)
                         .padding(.horizontal, 40)
                 }
+
+                Spacer() // Pushes content up so tab bar is visible
             }
             .padding()
         }
