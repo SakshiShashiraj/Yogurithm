@@ -28,7 +28,7 @@ struct MainView: View {
             // Streak Tracker Tab 🔥
             StreakTrackerView()
                 .tabItem {
-                    Label("Streak", systemImage: "flame.fill")
+                    Label("Stats", systemImage: "flame.fill")
                 }
 
             // Ranked Yogurts Tab 🏆
