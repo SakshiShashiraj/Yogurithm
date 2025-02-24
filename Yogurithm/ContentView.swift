@@ -9,48 +9,29 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var yogurts: [Yogurt] // Fetches all yogurts
+    @Query var yogurts: [Yogurt] // Fetch all yogurts
+
+    var brands: [String] {
+        Set(yogurts.map { $0.brand }).sorted() // Extract unique brands
+    }
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(yogurts) { yogurt in
-                    NavigationLink(destination: YogurtDetailView(yogurt: yogurt)) {
-                        VStack(alignment: .leading) {
-                            Text(yogurt.name)
-                                .font(.headline)
-                            Text(yogurt.brand)
-                                .font(.subheadline)
-                            Text("⭐️ Rating: \(yogurt.rating)")
-                                .font(.caption)
-                        }
-                    }
+            List(brands, id: \.self) { brand in
+                NavigationLink(destination: BrandDetailView(brand: brand, yogurts: yogurts)) {
+                    Text(brand)
+                        .font(.headline)
+                        .padding(.vertical, 5)
                 }
-                .onDelete(perform: deleteYogurts)
             }
-            .navigationTitle("Yogurithm 🍦")
+            .navigationTitle("Yogurt Brands")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: addYogurt) {
-                        Image(systemName: "plus")
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: RankedYogurtListView(yogurts: yogurts)) {
+                        Text("View Current List")
                     }
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
                 }
             }
         }
-    }
-
-    func deleteYogurts(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(yogurts[index])
-        }
-    }
-
-    func addYogurt() {
-        let newYogurt = Yogurt(name: "New Yogurt", brand: "Brand", rating: 3)
-        modelContext.insert(newYogurt)
     }
 }
