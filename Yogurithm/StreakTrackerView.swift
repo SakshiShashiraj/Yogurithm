@@ -31,17 +31,7 @@ struct StreakTrackerView: View {
             .cornerRadius(12)
             .padding(.horizontal, 40)
 
-            NavigationLink(destination: HomeView()) {
-                Text("Home 🏠")
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 40)
-            }
+            
         }
         .padding()
     }
