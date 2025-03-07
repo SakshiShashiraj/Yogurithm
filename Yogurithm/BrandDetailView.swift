@@ -10,25 +10,39 @@ import SwiftData
 
 struct BrandDetailView: View {
     let brand: String
-    let yogurts: [Yogurt] // Yogurts are passed from ContentView
+    let yogurts: [Yogurt]
     
     var filteredYogurts: [Yogurt] {
-        // Filter yogurts to only show those of the selected brand
         yogurts.filter { $0.brand == brand }
     }
     
+    let columns = [GridItem(.flexible(), spacing: 15), GridItem(.flexible(), spacing: 15)]
+    
     var body: some View {
-        List(filteredYogurts) { yogurt in
-            NavigationLink(destination: YogurtDetailView(yogurt: yogurt)) {
-                VStack(alignment: .leading) {
-                    Text(yogurt.name)
-                        .font(.headline)
-                    
-                    Text("Rating: \(yogurt.rating) ⭐️")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 15) {
+                ForEach(filteredYogurts) { yogurt in
+                    NavigationLink(destination: YogurtDetailView(yogurt: yogurt)) {
+                        VStack {
+                            Image(systemName: "leaf") // Placeholder icon for yogurt
+                                .font(.largeTitle)
+                                .foregroundColor(.green)
+                            
+                            Text(yogurt.name)
+                                .font(.headline)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 5)
+                        }
+                        .padding()
+                        .frame(height: 100)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                        .shadow(radius: 3)
+                    }
                 }
             }
+            .padding()
         }
         .navigationTitle(brand)
     }

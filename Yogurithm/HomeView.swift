@@ -9,17 +9,25 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
+                Spacer()
+                
+                Image("yogurithm_logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150, height: 150)
+                    .clipShape(Circle())
+                
                 Text("Welcome to Yogurithm")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-
+                    .padding(.horizontal, 20)
+                
                 Text("Rank your favorite yogurts and keep track of your reviews!")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
-
-                // Start Ranking Button
+                
                 NavigationLink(destination: ContentView()) {
                     Text("Start Ranking")
                         .font(.title2)
@@ -31,8 +39,8 @@ struct HomeView: View {
                         .cornerRadius(12)
                         .padding(.horizontal, 40)
                 }
-
-                Spacer() // Pushes content up so tab bar is visible
+                
+                Spacer()
             }
             .padding()
         }
