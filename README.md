@@ -36,7 +36,3 @@ Finally, run the app using Command + R.
 
 ---
 
-
-
-Built with ❤️ by Sakshi Shashiraj
-Connect on GitHub: SakshiShashiraj
